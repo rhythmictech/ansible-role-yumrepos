@@ -1,0 +1,38 @@
+---
+- name: enable centosplus repo (C7)
+  ini_file:
+    path: /etc/yum.repos.d/CentOS-Base.repo
+    section: centosplus
+    option: enabled
+    value: "1"
+    no_extra_spaces: yes
+  when: ansible_distribution_major_version == '7' and repos_enable_centosplus
+  tags: ['repos']
+
+- name: enable CentOS CR repo (C7)
+  ini_file:
+    path: /etc/yum.repos.d/CentOS-CR.repo
+    section: cr
+    option: enabled
+    value: "1"
+    no_extra_spaces: yes
+  when: ansible_distribution_major_version == '7' and repos_enable_centoscr
+  tags: ['repos']
+
+- name: enable CentOS fasttrack repo (C7)
+  ini_file:
+    path: /etc/yum.repos.d/CentOS-fasttrack.repo
+    section: fasttrack
+    option: enabled
+    value: "1"
+    no_extra_spaces: yes
+  when: ansible_distribution_major_version == '7' and repos_enable_centosfasttrack
+  tags: ['repos']
+
+- name: install epel repo (C7)
+  yum:
+    name: epel-release
+    state: latest
+    disable_excludes: all
+  when: ansible_distribution_major_version == '7' and repos_enable_epel
+  tags: ['repos']

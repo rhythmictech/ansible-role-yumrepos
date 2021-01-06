@@ -1,0 +1,99 @@
+---
+- name: enable addon packages (EL6)
+  ini_file:
+    path: /etc/yum.repos.d/oracle-linux-ol6.repo
+    section: ol6_addons
+    option: enabled
+    value: "1"
+    no_extra_spaces: yes
+  when: ansible_distribution_major_version == '6' and repos_enable_oracle_addons
+  tags: ['repos']
+
+- name: enable addon and optional packages (EL7)
+  ini_file:
+    path: /etc/yum.repos.d/oracle-linux-ol7.repo
+    section: ol7_addons
+    option: enabled
+    value: "1"
+    no_extra_spaces: yes
+  when: ansible_distribution_major_version == '7' and repos_enable_oracle_addons
+  tags: ['repos']
+
+- name: enable optional packages (EL7)
+  ini_file:
+    path: /etc/yum.repos.d/oracle-linux-ol7.repo
+    section: ol7_optional_latest
+    option: enabled
+    value: "1"
+    no_extra_spaces: yes
+  when: ansible_distribution_major_version == '7' and repos_enable_oracle_optional
+  tags: ['repos']
+
+- name: install epel repo (EL6)
+  yum:
+    name: https://archives.fedoraproject.org/pub/archive/epel/6/x86_64/epel-release-6-8.noarch.rpm
+    state: latest
+    disable_excludes: all
+  when: ansible_distribution_major_version == '6' and repos_enable_epel
+  tags: ['repos']
+
+- name: install epel repo (EL7)
+  yum:
+    name: oracle-epel-release-el7
+    state: latest
+    disable_excludes: all
+  when: ansible_distribution_major_version == '7' and repos_enable_epel
+  tags: ['repos']
+
+- name: configure kernel package
+  template:
+    src: etc.sysconfig.kernel.j2
+    dest: /etc/sysconfig/kernel
+    owner: root
+    group: root
+    mode: 0644
+  tags: ['stdbase', 'repos']
+
+- name: set UEK base repo (EL6)
+  template:
+    src: etc.yum.vars.uek.j2
+    dest: /etc/yum/vars/uek
+    owner: root
+    group: root
+    mode: 0644
+  when: ansible_distribution_major_version == '6'
+  tags: ['stdbase', 'repos']
+
+- name: disable unused UEK repos (EL6)
+  copy:
+    dest: "/etc/yum/vars/uekr{{ item }}"
+    content: "0\n"
+  with_items: [3, 4]
+  when: ansible_distribution_major_version == '6' and item != repos_oracle_uek_version|int
+  tags: ['stdbase', 'repos']
+
+- name: enable UEK kernel (EL6)
+  copy:
+    dest: "/etc/yum/vars/uekr{{ stdbase_uek_version }}"
+    content: "1\n"
+  when: ansible_distribution_major_version == '6' and repos_oracle_uek_version|int > 0
+  tags: ['stdbase', 'repos']
+
+- name: disable unused UEK repos (EL7)
+  ini_file:
+    path: /etc/yum.repos.d/uek-ol7.repo
+    section: "ol7_UEKR{{ item }}"
+    option: enabled
+    value: "0"
+    no_extra_spaces: yes
+  with_items: [3, 4, 5, 6]
+  when: ansible_distribution_major_version == '7' and item != repos_oracle_uek_version|int
+
+- name: enable desired UEK repo (EL7)
+  ini_file:
+    path: /etc/yum.repos.d/uek-ol7.repo
+    section: "ol7_UEKR{{ stdbase_uek_version }}"
+    option: enabled
+    value: "1"
+    no_extra_spaces: yes
+  when: ansible_distribution_major_version == '7' and repos_oracle_uek_version|int > 0

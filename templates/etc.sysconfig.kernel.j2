@@ -1,0 +1,11 @@
+# {{ ansible_managed }}
+# UPDATEDEFAULT specifies if new-kernel-pkg should make
+# new kernels the default
+UPDATEDEFAULT=yes
+
+# DEFAULTKERNEL specifies the default kernel package type
+{% if (repos_oracle_uek_version | int) > 0 %}
+DEFAULTKERNEL=kernel-uek
+{% else %}
+DEFAULTKERNEL=kernel
+{% endif %}

@@ -1,0 +1,21 @@
+---
+- name: get pulp rpm gpg keys
+  get_url:
+    url: "https://{{ stdbase_pulp_address }}/static/{{ item.gpg_key }}"
+    dest: "/etc/pki/rpm-gpg/{{ item.gpg_key }}"
+    owner: root
+    group: root
+    mode: 0640
+  with_items: "{{ stdbase_pulp_repos + stdbase_pulp_additional_repos }}"
+  when: item.os_version|default(ansible_distribution_major_version) is version (ansible_distribution_major_version, '==')
+  tags: ['stdbase', 'repos', 'gpgkeys']
+
+- name: install pulp rpm gpg keys
+  rpm_key: state=present key=/etc/pki/rpm-gpg/{{ item.gpg_key }}
+  with_items: "{{ stdbase_pulp_repos + stdbase_pulp_additional_repos }}"
+  when: item.os_version|default(ansible_distribution_major_version) is version (ansible_distribution_major_version, '==')
+  tags: ['stdbase', 'repos', 'gpgkeys']
+
+- name: copy pulp repo file
+  template: src=etc.yum.repos.d.pulp.repo.j2 dest=/etc/yum.repos.d/pulp.repo owner=root group=root mode=0644
+  tags: ['stdbase', 'repos']

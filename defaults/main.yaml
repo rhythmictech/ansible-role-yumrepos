@@ -1,0 +1,22 @@
+---
+# Generic
+
+# Enable / configure the EPEL repository for all RedHat-based distributions
+repos_enable_epel: true
+
+## CentOS
+
+# Enable specific CentOS repos
+repos_enable_centosplus: true
+repos_enable_centoscr: false
+repos_enable_centosfasttrack: false
+
+## Oracle Linux
+
+# Enable specific Oracle Linux repos
+repos_enable_oracle_addons: true
+repos_enable_oracle_optional: true
+
+# The version of the Oracle UEK to install. Set to 0 to disable the UEK
+#  Defaults to v5 for EL7, v4 for EL6
+repos_oracle_uek_version: "{{ '5' if ansible_distribution_major_version == '7' else '4' | int }}"
