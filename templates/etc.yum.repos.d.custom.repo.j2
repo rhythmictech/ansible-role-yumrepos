@@ -1,0 +1,13 @@
+#
+# Custom Yum Repositories
+# {{ ansible_managed }}
+#
+{% for repo in (repos_custom_repos) %}
+
+[{{ repo.name }}]
+name = {{ repo.name }}
+enabled = 1
+gpgcheck = 1
+gpgkey = {{ repo.gpg_key_url }}
+baseurl = {{ repo.base_url }}
+{% endfor %}

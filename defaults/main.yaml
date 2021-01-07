@@ -1,8 +1,18 @@
 ---
 # Generic
 
+repos_gpg_dir: /etc/pki/rpm-gpg
+repos_location: /etc/yum.repos.d
+
 # Enable / configure the EPEL repository for all RedHat-based distributions
 repos_enable_epel: true
+
+# Enable custom repos. These are a list of the following components:
+# repos_custom_repos:
+#   - name: mysql-5.6-community
+#     gpg_key_url: http://repo.mysql.com/RPM-GPG-KEY-mysql
+#     base_url: http://repo.mysql.com/yum/mysql-5.6-community/el/7/x86_64/
+repos_custom_repos: []
 
 ## CentOS
 
@@ -20,3 +30,4 @@ repos_enable_oracle_optional: true
 # The version of the Oracle UEK to install. Set to 0 to disable the UEK
 #  Defaults to v5 for EL7, v4 for EL6
 repos_oracle_uek_version: "{{ '5' if ansible_distribution_major_version == '7' else '4' | int }}"
+
