@@ -4,8 +4,7 @@
     state: present
     key: item.gpg_key_url
   with_items: "{{ repos_custom_repos }}"
-  tags: ['stdbase', 'repos', 'gpgkeys']
 
 - name: copy pulp repo file
   template: src=etc.yum.repos.d.custom.repo.j2 dest={{ repos_location }}/custom.repo owner=root group=root mode=0644
-  tags: ['stdbase', 'repos']
+

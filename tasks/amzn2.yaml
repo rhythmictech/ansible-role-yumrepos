@@ -4,4 +4,3 @@
   args:
     creates: /etc/yum.repos.d/epel.repo
   when: repos_enable_epel
-  tags: ['repos']

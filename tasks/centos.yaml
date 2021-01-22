@@ -7,7 +7,6 @@
     value: "1"
     no_extra_spaces: yes
   when: ansible_distribution_major_version == '7' and repos_enable_centosplus
-  tags: ['repos']
 
 - name: enable CentOS CR repo (C7)
   ini_file:
@@ -17,7 +16,6 @@
     value: "1"
     no_extra_spaces: yes
   when: ansible_distribution_major_version == '7' and repos_enable_centoscr
-  tags: ['repos']
 
 - name: enable CentOS fasttrack repo (C7)
   ini_file:
@@ -27,7 +25,6 @@
     value: "1"
     no_extra_spaces: yes
   when: ansible_distribution_major_version == '7' and repos_enable_centosfasttrack
-  tags: ['repos']
 
 - name: install epel repo (C7)
   yum:
@@ -35,4 +32,3 @@
     state: latest
     disable_excludes: all
   when: ansible_distribution_major_version == '7' and repos_enable_epel
-  tags: ['repos']
