@@ -2,7 +2,7 @@
 - name: install pulp rpm gpg keys
   rpm_key: 
     state: present
-    key: item.gpg_key_url
+    key: "{{ item.gpg_key_url }}"
   with_items: "{{ repos_custom_repos }}"
 
 - name: copy pulp repo file
