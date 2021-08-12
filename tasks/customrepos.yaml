@@ -8,3 +8,7 @@
 - name: copy pulp repo file
   template: src=etc.yum.repos.d.custom.repo.j2 dest={{ repos_location }}/custom.repo owner=root group=root mode=0644
 
+- name: Install repos from rpm
+  yum:
+    name: "{{ repos_from_package }}"
+    state: present
