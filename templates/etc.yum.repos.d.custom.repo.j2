@@ -7,7 +7,9 @@
 [{{ repo.name }}]
 name = {{ repo.name }}
 enabled = 1
-gpgcheck = 1
+gpgcheck = {{ repo.gpg_check | default('1') }}
+{% if repo.gpg_key_url | default(false) %}
 gpgkey = {{ repo.gpg_key_url }}
+{% endif %}
 baseurl = {{ repo.base_url }}
 {% endfor %}

@@ -12,6 +12,9 @@ repos_enable_epel: true
 #   - name: mysql-5.6-community
 #     gpg_key_url: http://repo.mysql.com/RPM-GPG-KEY-mysql
 #     base_url: http://repo.mysql.com/yum/mysql-5.6-community/el/7/x86_64/
+#   - name: my-custom-repo
+#     gpg_check: 0
+#     base_url: https://repo.server.lan/yum/
 repos_custom_repos: []
 
 # Install custom repos from an RPM package hosted on the internet. A list of urls

@@ -1,11 +1,12 @@
 ---
-- name: install pulp rpm gpg keys
+- name: install custom rpm gpg keys
   rpm_key: 
     state: present
-    key: "{{ item.gpg_key_url }}"
+    key: item.gpg_key_url
+  when: item.gpg_key_url | default(false)
   with_items: "{{ repos_custom_repos }}"
 
-- name: copy pulp repo file
+- name: copy custom repo file
   template: src=etc.yum.repos.d.custom.repo.j2 dest={{ repos_location }}/custom.repo owner=root group=root mode=0644
 
 - name: Install repos from rpm
