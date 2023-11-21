@@ -7,6 +7,9 @@ repos_location: /etc/yum.repos.d
 # Enable / configure the EPEL repository for all RedHat-based distributions
 repos_enable_epel: true
 
+# Enable / configure the SCL repository for CentOS / Oracle Linux
+repos_enable_scl: false
+
 # Enable custom repos. These are a list of the following components:
 # repos_custom_repos:
 #   - name: mysql-5.6-community
