@@ -35,6 +35,7 @@ repos_enable_centosfasttrack: false
 # Enable specific Oracle Linux repos
 repos_enable_oracle_addons: true
 repos_enable_oracle_optional: true
+repos_enable_oracle_kvm: false
 
 # The version of the Oracle UEK to install. Set to 0 to disable the UEK
 #  Defaults to v5 for EL7, v4 for EL6
