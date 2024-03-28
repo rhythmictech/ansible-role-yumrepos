@@ -12,7 +12,7 @@
 - name: Configure Amazon Linux 2
   include_tasks:
     file: amzn2.yaml
-  when: ansible_os_family == 'RedHat' and ansible_distribution == 'Amazon'
+  when: ansible_os_family == 'RedHat' and ansible_distribution == 'Amazon' and ansible_distribution_major_version == '2'
 
 - name: Configure Custom-Included Repos
   include_tasks:
