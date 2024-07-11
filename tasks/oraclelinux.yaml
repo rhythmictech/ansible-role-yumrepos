@@ -1,21 +1,12 @@
 ---
-- name: enable addon packages (EL6)
+- name: enable addon packages
   ini_file:
-    path: /etc/yum.repos.d/oracle-linux-ol6.repo
-    section: ol6_addons
+    path: "/etc/yum.repos.d/oracle-linux-ol{{ ansible_distribution_major_version }}.repo"
+    section: "ol{{ ansible_distribution_major_version }}_addons"
     option: enabled
     value: "1"
     no_extra_spaces: yes
-  when: ansible_distribution_major_version == '6' and repos_enable_oracle_addons
-
-- name: enable addon and optional packages (EL7)
-  ini_file:
-    path: /etc/yum.repos.d/oracle-linux-ol7.repo
-    section: ol7_addons
-    option: enabled
-    value: "1"
-    no_extra_spaces: yes
-  when: ansible_distribution_major_version == '7' and repos_enable_oracle_addons
+  when: repos_enable_oracle_addons
 
 - name: enable optional packages (EL7)
   ini_file:
@@ -26,14 +17,14 @@
     no_extra_spaces: yes
   when: ansible_distribution_major_version == '7' and repos_enable_oracle_optional
 
-- name: enable kvm utilities packages (EL7)
+- name: enable kvm utilities packages
   ini_file:
-    path: /etc/yum.repos.d/virt-ol7.repo
-    section: ol7_optional_latest
+    path: "/etc/yum.repos.d/virt-ol{{ ansible_distribution_major_version }}.repo"
+    section: "ol{{ ansible_distribution_major_version }}_optional_latest"
     option: enabled
     value: "1"
     no_extra_spaces: yes
-  when: ansible_distribution_major_version == '7' and repos_enable_oracle_kvm
+  when: repos_enable_oracle_kvm
 
 - name: install epel repo (EL6)
   yum:
@@ -42,12 +33,12 @@
     disable_excludes: all
   when: ansible_distribution_major_version == '6' and repos_enable_epel
 
-- name: install epel repo (EL7)
+- name: install epel repo
   yum:
-    name: oracle-epel-release-el7
+    name: "oracle-epel-release-el{{ ansible_distribution_major_version }}"
     state: latest
     disable_excludes: all
-  when: ansible_distribution_major_version == '7' and repos_enable_epel
+  when: ansible_distribution_major_version >= '7' and repos_enable_epel
 
 - name: install SCL repo (EL7)
   yum:
