@@ -1,0 +1,33 @@
+---
+- name: Configure Alma PowerTools/CRB repo
+  community.general.ini_file:
+    path: /etc/yum.repos.d/almalinux-crb.repo
+    section: crb
+    option: enabled
+    value: "{{ (repos_enable_alma_crb or repos_enable_epel) | ternary('1', '0') }}"
+    create: false
+    no_extra_spaces: yes
+
+- name: Configure Alma Plus repo
+  community.general.ini_file:
+    path: /etc/yum.repos.d/almalinux-plus.repo
+    section: plus
+    option: enabled
+    value: "{{ repos_enable_alma_plus | ternary('1', '0') }}"
+    create: false
+    no_extra_spaces: yes
+
+- name: Configure Alma Devel repo
+  ansible.builtin.dnf:
+    name: almalinux-release-devel
+    state: "{{ repos_enable_alma_devel | ternary('present', 'absent') }}"
+
+- name: Configure Alma Testing repo
+  ansible.builtin.dnf:
+    name: almalinux-release-testing
+    state: "{{ repos_enable_alma_testing | ternary('present', 'absent') }}"
+
+- name: Configure Epel Repo
+  ansible.builtin.dnf:
+    name: epel-release
+    state: "{{ repos_enable_epel | ternary('present', 'absent') }}"

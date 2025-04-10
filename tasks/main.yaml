@@ -1,4 +1,9 @@
 ---
+- name: Configure AlmaLinux
+  include_tasks:
+    file: alma.yaml
+  when: ansible_os_family == 'RedHat' and ansible_distribution == 'AlmaLinux'
+
 - name: Configure CentOS 7
   include_tasks:
     file: centos.yaml

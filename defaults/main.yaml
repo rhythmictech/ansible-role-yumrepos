@@ -23,6 +23,14 @@ repos_custom_repos: []
 # Install custom repos from an RPM package hosted on the internet. A list of urls
 repos_from_package: []
 
+## AlmaLinux
+
+# Enable specific AlmaLinux repos
+repos_enable_alma_crb: false
+repos_enable_alma_devel: false
+repos_enable_alma_plus: false
+repos_enable_alma_testing: false
+
 ## CentOS
 
 # Enable specific CentOS repos
